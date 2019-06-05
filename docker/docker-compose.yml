@@ -1,0 +1,26 @@
+version: '2.3'
+
+services:
+
+  api:
+    image: api
+    container_name: api
+    working_dir: /api
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+
+    environment:
+      - PYTHONPATH=/api
+      
+    ports:
+      - "5000:5000"
+
+    volumes:
+      - ../:/api
+
+# Uncomment the following line to use an NVIDIA GPU (requires nvidia-docker)
+    #runtime: nvidia
+    
+    restart: always
+    command: python /api/app.py

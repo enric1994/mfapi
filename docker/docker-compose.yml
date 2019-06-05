@@ -23,4 +23,4 @@ services:
     #runtime: nvidia
     
     restart: always
-    command: python /api/app.py
+    command: python /api/api.py

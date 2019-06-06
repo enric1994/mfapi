@@ -10,7 +10,8 @@ I believe that it can be useful to integrate different parts of a pipeline that 
 
 In the following example, two images are sent from the client to the server API alongside some parameters. Then, the API blends the images and return the result and some parameters:
 
-```import requests
+```
+import requests
 
 # Load multiple files
 files=dict(img1=open('img1.png'),img2=open('img2.png'))
@@ -35,5 +36,7 @@ print(response.headers.get('key2'))
 # Usage
 
 1- Use `docker-compose up` in the docker folder to start the Docker API.
+
 2- The client send `img1.png`, `img2.png` and some parameters to the server. Use `python send_files.py`, in a new terminal.
+
 3- The client will save the received file and print the returned parameters.

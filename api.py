@@ -6,7 +6,6 @@ from flask import Flask, request, send_file
 from skimage.io import imread, imsave
 import numpy as np
 import cv2
-
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -15,6 +14,8 @@ app.debug = True
 
 @app.route('/', methods=['POST'])
 def process_files():
+
+	# Receive the different files and store them in an array
 	received_images = []
 	images = request.files.to_dict()
 	for image in images:
@@ -25,10 +26,16 @@ def process_files():
 		imageRGB = cv2.cvtColor(decoded_image , cv2.COLOR_BGR2RGB)
 		received_images.append(imageRGB)
 
-	alpha = float(request.args.get('blending'))
+	# Do some operation using the received files and the parameters
+	# e.g. blend the two images using the param1 value (0.5)
+	alpha = float(request.args.get('param1'))
 	blended = alpha * received_images[0] + (1 - alpha) * received_images[1]
-	imsave('/api/tmp/result.png', blended/255) #don't save
+	imsave('/api/tmp/tmp_result.png', blended/255)
 
-	return send_file(open('/api/tmp/result.png'), mimetype='image/png') #send parameters and send multiple images
+	# Return one file and more parameters
+	resp = send_file(open('/api/tmp/tmp_result.png'), mimetype='image/png')
+	resp.headers['key1'] = 'value1'
+	resp.headers['key2'] = 'value2'
+	return resp
 
 app.run(host="0.0.0.0", port=5000)
